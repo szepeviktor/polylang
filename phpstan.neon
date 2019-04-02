@@ -1,0 +1,45 @@
+# See options in https://github.com/phpstan/phpstan/blob/master/conf/config.neon
+services:
+    -
+        class: PHPStan\WordPress\IsWpErrorFunctionTypeSpecifyingExtension
+        tags:
+            - phpstan.typeSpecifier.functionTypeSpecifyingExtension
+    -
+        class: PHPStan\WordPress\WpThemeMagicPropertiesClassReflectionExtension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension
+parameters:
+    level: max
+    paths:
+        - %currentWorkingDirectory%/admin/
+        - %currentWorkingDirectory%/frontend/
+        - %currentWorkingDirectory%/include/
+        - %currentWorkingDirectory%/install/
+        - %currentWorkingDirectory%/lingotek/
+        - %currentWorkingDirectory%/modules/
+        - %currentWorkingDirectory%/settings/
+    excludes_analyse:
+        - %currentWorkingDirectory%/admin/view*.php
+        - %currentWorkingDirectory%/settings/view*.php
+    autoload_files:
+        - %currentWorkingDirectory%/vendor/giacocorsiglia/wordpress-stubs/wordpress-stubs.php
+        - %currentWorkingDirectory%/tests/wordpress-importer-stubs.php
+        - %currentWorkingDirectory%/tests/phpstan-bootstrap.php
+        # Procedural code
+        - %currentWorkingDirectory%/include/api.php
+        - %currentWorkingDirectory%/include/functions.php
+        - %currentWorkingDirectory%/modules/wpml/wpml-legacy-api.php
+    autoload_directories:
+        - %currentWorkingDirectory%/admin/
+        - %currentWorkingDirectory%/frontend/
+        - %currentWorkingDirectory%/include/
+        - %currentWorkingDirectory%/install/
+        - %currentWorkingDirectory%/lingotek/
+        - %currentWorkingDirectory%/modules/
+        - %currentWorkingDirectory%/settings/
+    ignoreErrors:
+        - '#^Function apply_filters invoked with [3456] parameters, 2 required\.$#'
+        - '#^Function do_action invoked with [3456] parameters, 1-2 required\.$#'
+        - '#^Function current_user_can invoked with 2 parameters, 1 required\.$#'
+        - '#^Function add_query_arg invoked with [123] parameters, 0 required\.$#'
+        - '#^Access to an undefined property PLL_#'
